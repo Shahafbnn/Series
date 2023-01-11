@@ -27,5 +27,14 @@ public class Main {
         br.addStation(new QueueMethods.Station(5, 0));
 
         System.out.println(br.routeLength());
+
+        q = new Queue<>();
+        q.insert(6);
+        q.insert(1);
+        q.insert(3);
+        q.insert(8);
+        q.insert(9);
+        q.insert(2);
+        System.out.println(q);
     }
 }
