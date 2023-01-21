@@ -1,3 +1,6 @@
+import java.sql.Statement;
+import java.util.InputMismatchException;
+
 public class QueueMethods {
     public static <T> int length(Queue<T> q) {
         Queue<T> temp = new Queue<T>();
@@ -458,13 +461,53 @@ public class QueueMethods {
         }
 
 
+    public static void sortQ(Queue<Integer> q) {
+        Queue<Integer> sorted = new Queue<Integer>();
+        while (!q.isEmpty()) {
+            sorted.insert(extractMin(q));
+        }
+        while (!sorted.isEmpty()) {
+            q.insert(sorted.remove());
+        }
     }
 
+    public static int extractMin(Queue<Integer> queue) {
+        int max = Integer.MAX_VALUE;
+        Queue<Integer> save = new Queue<Integer>();
+        while (!queue.isEmpty()) {
+            if (queue.head() < max) {
+                max = queue.head();
+            }
+            save.insert(queue.remove());
+        }
+        boolean removed = false;
+        while (!save.isEmpty()) {
+            if (!removed) {
+                if (save.head() == max) {
+                    removed = true;
+                    save.remove();
+                }
+            }
+            queue.insert(save.remove());
+        }
+        return max;
+    }
 
-
-
-
-
-
+    public static void sort(Queue<Integer> q){ // not working, im duplicating the biggest till it's not.
+        if(q.isEmpty()) return;
+        Queue<Integer> temp = new Queue<Integer>();
+        int removed = q.remove();
+        while(!q.isEmpty()){
+            if(q.head() > removed) {
+                temp.insert(q.remove());
+                temp.insert(removed);
+            }
+            else if(q.head() < removed){
+                temp.insert(removed);
+                temp.insert(q.remove());
+            }
+        }
+        while(!temp.isEmpty()) q.insert(temp.remove());
+    }
 
 }
