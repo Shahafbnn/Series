@@ -28,7 +28,9 @@ public class Main {
 
         System.out.println(br.routeLength());
         System.out.println(makeQueue(1234));
+
     }
+
 
     public static Queue<Integer> makeQueue(int n){
         int length = ("" + n).length();
@@ -53,4 +55,5 @@ public class Main {
         }
         return q;
     }
+
 }

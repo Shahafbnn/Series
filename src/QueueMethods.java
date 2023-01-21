@@ -1,3 +1,5 @@
+import org.omg.IOP.ProfileIdHelper;
+
 import java.sql.Statement;
 import java.util.InputMismatchException;
 
@@ -206,6 +208,55 @@ public class QueueMethods {
         return correct;
     }
 
+    public static void sortQ(Queue<Integer> q) {
+        Queue<Integer> sorted = new Queue<Integer>();
+        while (!q.isEmpty()) {
+            sorted.insert(extractMin(q));
+        }
+        while (!sorted.isEmpty()) {
+            q.insert(sorted.remove());
+        }
+    }
+
+    public static int extractMin(Queue<Integer> queue) {
+        int max = Integer.MAX_VALUE;
+        Queue<Integer> save = new Queue<Integer>();
+        while (!queue.isEmpty()) {
+            if (queue.head() < max) {
+                max = queue.head();
+            }
+            save.insert(queue.remove());
+        }
+        boolean removed = false;
+        while (!save.isEmpty()) {
+            if (!removed) {
+                if (save.head() == max) {
+                    removed = true;
+                    save.remove();
+                }
+            }
+            queue.insert(save.remove());
+        }
+        return max;
+    }
+
+    public static void sort(Queue<Integer> q){ // not working, im duplicating the biggest till it's not.
+        if(q.isEmpty()) return;
+        Queue<Integer> temp = new Queue<Integer>();
+        int removed = q.remove();
+        while(!q.isEmpty()){
+            if(q.head() > removed) {
+                temp.insert(q.remove());
+                temp.insert(removed);
+            }
+            else if(q.head() < removed){
+                temp.insert(removed);
+                temp.insert(q.remove());
+            }
+        }
+        while(!temp.isEmpty()) q.insert(temp.remove());
+    }
+
     //Receives a queue of integer type q and an integer value.
     //checks whether there is a sequence of the inputted value in the queue. If so, returns true. Otherwise, returns false.
     public static boolean isSquence(Queue<Integer> q, int value){
@@ -409,22 +460,21 @@ public class QueueMethods {
 
 
 
-    public class CustomerService{
-        public class Client
-        {
+    public class CustomerService {
+        public class Client {
             private String name;   // שם הלקוח
-            private boolean vip;  	// האם הלקוח מועדף
+            private boolean vip;    // האם הלקוח מועדף
 
-            public Client(String name, boolean vip)
-            {
+            public Client(String name, boolean vip) {
                 this.name = name;
                 this.vip = vip;
             }
-            public boolean GetVIP()
-            {
+
+            public boolean GetVIP() {
                 return this.vip;
             }
         }
+
         private Queue<Client> clients; // a queue for regular clients.
         private Queue<Client> vipClients; // a queue for vip clients.
 
@@ -442,72 +492,180 @@ public class QueueMethods {
         }
 
         //Receives a new client c and adds it to the system, in accordance with the rules for handling a new customer in the company.
-        public void addCustomer(Client c){
-            if(c.GetVIP()) vipClients.insert(c);
+        public void addCustomer(Client c) {
+            if (c.GetVIP()) vipClients.insert(c);
             else clients.insert(c);
         }
 
         //Returns the next customer to the system for handling, in accordance with the company's customer handling rules.
-        public Client hundleCustomer(){
-            if(!vipClients.isEmpty()) return vipClients.remove();
-            if(!clients.isEmpty()) return clients.remove();
+        public Client handleCustomer() {
+            if (!vipClients.isEmpty()) return vipClients.remove();
+            if (!clients.isEmpty()) return clients.remove();
             return null;
         }
 
         //Returns true if all packages for shipping have been provided to customers.
         //Otherwise, returns false.
-        public boolean isAvailable(){
+        public boolean isAvailable() {
+            return (vipClients.isEmpty() && clients.isEmpty());
+        }
+    }
+
+
+    public class Clinic {
+        public class Client {
+            private String name;   // שם הלקוח
+            private boolean vip;    // האם הלקוח מועדף
+
+            public Client(String name, boolean vip) {
+                this.name = name;
+                this.vip = vip;
+            }
+
+            public boolean GetVIP() {
+                return this.vip;
+            }
+        }
+
+        private Queue<Client> clients; // a queue for regular clients.
+        private Queue<Client> vipClients; // a queue for vip clients.
+
+        private int clientsServed;
+
+
+
+        public Clinic(Queue<Client> clients, Queue<Client> VipClients, int clientsServed) {
+            this.clients = clients;
+            this.clientsServed = clientsServed;
+        }
+
+        public Clinic() {
+            this.clients = new Queue<Client>();
+            this.vipClients = new Queue<Client>();
+            this.clientsServed = 0;
+        }
+
+        //Receives a new client c and adds it to the system, in accordance with the rules for handling a new customer in the company.
+        //internal function. Since the queues are private, this is the only way.
+        //O(1)
+        public void addCustomer(Client c) {
+            if (c.GetVIP()) vipClients.insert(c);
+            else clients.insert(c);
+        }
+
+        //Returns the next customer to the system for handling, in accordance with the company's customer handling rules.
+        public Client handleCustomer() {
+            if(!vipClients.isEmpty() && clientsServed >= 3) return vipClients.remove();
+            clientsServed = clientsServed + 1;
+            return clients.remove();
+        }
+
+        //Returns true if all packages for shipping have been provided to customers.
+        //Otherwise, returns false.
+        public boolean isAvailable() {
             return (vipClients.isEmpty() && clients.isEmpty());
         }
 
+    }
 
-    public static void sortQ(Queue<Integer> q) {
-        Queue<Integer> sorted = new Queue<Integer>();
-        while (!q.isEmpty()) {
-            sorted.insert(extractMin(q));
+    public class Supermarket{
+        public class Product {
+            private int pcode;
+            private String pname;
+            private double pprice;
         }
-        while (!sorted.isEmpty()) {
-            q.insert(sorted.remove());
+        public class Item {
+            private Product prod;
+            private int amount;      // כמות הפריטים מאותו סוג
+        }
+        public class Trolley {
+            private Queue<Item> items;       // מחסנית של פריטי עגלה
+            private double sum;                    // סכום לתשלום של כל פריטי העגלה
+        }
+
+        private Queue<Trolley> q;
+        private Queue<Trolley> vipQ;
+        private int MAXVIPQ = 8;
+
+        //Receives a cart and adds it to the appropriate queue
+        public void addTrolley(Trolley t){
+            if(length(t.items) < MAXVIPQ) vipQ.insert(t);
+            else q.insert(t);
+        }
+
+        //empties each queue separately and return the total cost of all the carts that were in them.
+        public double countMoney(){
+            double money = 0;
+            while(!q.isEmpty()){
+                money += q.remove().sum;
+            }
+            while(!vipQ.isEmpty()){
+                money = money + vipQ.remove().sum;
+            }
+            return money;
         }
     }
 
-    public static int extractMin(Queue<Integer> queue) {
-        int max = Integer.MAX_VALUE;
-        Queue<Integer> save = new Queue<Integer>();
-        while (!queue.isEmpty()) {
-            if (queue.head() < max) {
-                max = queue.head();
+
+    public class taskOrganizer{
+        public class Task {
+            private String content;
+            private int code;
+
+            public String getContent() {
+                return content;
             }
-            save.insert(queue.remove());
-        }
-        boolean removed = false;
-        while (!save.isEmpty()) {
-            if (!removed) {
-                if (save.head() == max) {
-                    removed = true;
-                    save.remove();
-                }
+
+            public void setContent(String content) {
+                this.content = content;
             }
-            queue.insert(save.remove());
+
+            public int getCode() {
+                return code;
+            }
+
+            public void setCode(int code) {
+                this.code = code;
+            }
         }
-        return max;
+
+        private Queue<Task> panic; // for the highest priority tasks
+        private Queue<Task> urgent; // for the middle priority tasks
+        private Queue<Task> normal; // for the lowest priority tasks
+
+        public taskOrganizer() {
+            this.panic = new Queue<Task>();
+            this.urgent = new Queue<Task>();
+            this.normal = new Queue<Task>();
+        }
+
+        public void addTask(Task t){
+            if(t.getCode() == 1) panic.insert(t);
+            if(t.getCode() == 2) urgent.insert(t);
+            else normal.insert(t);
+        }
+
+        public Task executeTask(){
+            Task head = null;
+            if(!panic.isEmpty()) {
+                head = panic.remove();
+                panic.insert(head);
+            }
+            else if(!urgent.isEmpty()) {
+                head = urgent.remove();
+                urgent.insert(head);
+            }
+            else if(!normal.isEmpty()) {
+                head = normal.remove();
+                normal.insert(head);
+
+            }
+            return head;
+        }
     }
 
-    public static void sort(Queue<Integer> q){ // not working, im duplicating the biggest till it's not.
-        if(q.isEmpty()) return;
-        Queue<Integer> temp = new Queue<Integer>();
-        int removed = q.remove();
-        while(!q.isEmpty()){
-            if(q.head() > removed) {
-                temp.insert(q.remove());
-                temp.insert(removed);
-            }
-            else if(q.head() < removed){
-                temp.insert(removed);
-                temp.insert(q.remove());
-            }
-        }
-        while(!temp.isEmpty()) q.insert(temp.remove());
-    }
+
+
+
 
 }
