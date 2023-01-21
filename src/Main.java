@@ -27,5 +27,30 @@ public class Main {
         br.addStation(new QueueMethods.Station(5, 0));
 
         System.out.println(br.routeLength());
+        System.out.println(makeQueue(1234));
+    }
+
+    public static Queue<Integer> makeQueue(int n){
+        int length = ("" + n).length();
+        char[] charArr = ("" + n).toCharArray();
+
+        Queue<Integer> q = new Queue<Integer>();
+
+        int i;
+        for(i = 0; i < length; i++){
+            q.insert(Character.getNumericValue(charArr[i]));
+        }
+        return q;
+    }
+
+    public static Queue<Integer> makeQueue(int[] n){
+        int length = n.length;
+        Queue<Integer> q = new Queue<Integer>();
+
+        int i;
+        for(i = 0; i < length; i++){
+            q.insert(n[i]);
+        }
+        return q;
     }
 }
