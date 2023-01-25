@@ -11,189 +11,7 @@ public class Program {
         System.out.println("Ending tests for " + func_name + "...");
     }
 
-    public static int sum1ToN(int n){
-        if(n==0) return 0;
-        return n + sum1ToN(n-1);
-    }
-
-    public static int factorial(int n){
-        if(n==1) return 1;
-        return n * factorial(n-1);
-    }
-
-    public static int mulOdd(int n){
-        if(n==1) return 1;
-        if(n%2!=0) return n * mulOdd(n-2);
-        else return mulOdd(n-1);
-    }
-
-    public static int sumDigits(int n){
-        if(n<10) return n;
-        return (n%10) + sumDigits(n/10);
-    }
-
-    public static int mod(int n, int m){
-        if(m>n) return n;
-        return mod(n-m, m);
-    }
-
-    public static int mul(int n, int m){
-        if(m==0) return 0;
-        return n + mul(n, m - 1);
-    }
-
-    public static int div(int n, int m){
-        if(n==0) return 0;
-        return n;
-    }
-
-    public static int nthItemInSeries(int a1, int d, int n){
-        if(n!=1){
-            return d + nthItemInSeries(a1, d, n - 1);
-        }
-        else return a1;
-
-    }
-
-    public static int diff(int a, int b){
-        if(a == b) return 0;
-        return 1 + diff(a, b+1);
-    }
-
-    public static int countOddDigits(int num){
-        if(num <= 0 ) return 0;
-        if(num%2 != 0) return 1 + countOddDigits(num/10);;
-        return countOddDigits(num/10);
-    }
-
-    public static boolean isDividable(int x, int y){
-        if(x-y == 0) return true;
-        return isDividable(x-y, y);
-    }
-
-    public static int reverseNum(int n){
-        if(n<=10) return n;
-        int bob = ( ((int)Math.pow(10, (("" + n).length()-1)) ) * (n%10)  + reverseNum(n/10));
-        return bob;
-    }
-
-    public static int auditDigit(int n){
-        if(n < 10) return n;
-        int checked = n%10 + auditDigit(n/10);
-        if(checked < 10) return checked;
-        return auditDigit(checked);
-    }
-
-    public static boolean isInNum(int num, int digit){
-        if(num%10 == digit) return true;
-        if(num <= 0) return false;
-        return isInNum(num/10, digit);
-    }
-
-    public static boolean isPrime(int n){
-        if(n==0||n==1) return false;
-        return isPrime(n, 2);
-    }
-
-    public static boolean isPrime(int n, int counter){
-        if(n > counter) return false;
-        if(n%counter == 0) return true;
-        return isPrime(n, counter+1);
-    }
-
-    public static boolean sameDuality(int n){
-        if(n < 10) return true;
-        return sameDuality(n/10) == ((n%2==0) == ((n/10)%2==0));
-    }
-
-    public static int totalEars(int n){
-        if(n<=0) return 0;
-        if(n%2==0) return totalEars(n-1) + 3;
-        return totalEars(n-1) + 2;
-    }
-
-    public static int numOfBlocks(int row){
-        if(row <= 1) return 1;
-        return row + numOfBlocks(row-1);
-    }
-
-    public static double seriesSumSqrt(int n){
-        if(n<=1) return 1.0;
-        if(n%2==0) return seriesSumSqrt(n-1) - Math.sqrt(n+n-1);
-        return seriesSumSqrt(n-1) + n + n-1;
-    }
-
-    public static int seriesSumPow(int n){
-        if(n<=1) return 2;
-        if(n%2==0) return seriesSumPow(n-1) + (int)Math.pow(n,2);
-        return seriesSumPow(n-1) + n*2;
-    }
-
-    public static int minDigit(int n){
-        int smallest = n%10;
-        while(n > 10){
-            n = n/10;
-            if(n%10 < smallest) smallest = n%10;
-        }
-        return smallest;
-    }
-
-    public static int minDigitRec(int n){
-        if(n < 10) return n;
-        int min = minDigitRec(n/10);
-        if(min < n%10) return min;
-        return n%10;
-    }
-
-    public static int minDiff(int n){
-        if(n<100) return Math.abs(n%10 - n/10%10);
-        if(minDiff(n/10) < Math.abs(n%10 - n/10%10)) return minDiff(n/10);
-        return Math.abs(n%10 - n/10%10);
-    }
-
-    public static boolean pairDigits(int n){
-        if(n<100) return n%10 == n/10%10;
-        if(n%10 == n/10%10 || pairDigits(n/10)) return true;
-        return false;
-    }
-
-    public static boolean digitInNum(int n, int digit){
-        if(n<10) return n == digit;
-        if(digitInNum(n/10, digit) || n%10 == digit) return true;
-        return false;
-    }
-
-    public static boolean isSameLength(int n, int m){
-        if(n==0 && m==0) return true;
-        if(n!=0 && m==0) return false;
-        if(n==0 && m!=0) return false;
-        return isSameLength(n/10, m/10);
-    }
-
-    public static boolean noNumInside(int n, int m){
-        if(n<100) return n==m;
-        if(n%100 == m || noNumInside(n/10, m)) return true;
-        return false;
-    }
-
-    public static boolean is2Power(int n){
-        if(n==1) return true;
-        return is2Power(n,n);
-    }
-
-    public static boolean is2Power(int n, int m){
-        if(m<=0) return false;
-        if(m*m == n || is2Power(n, m-1))return true;
-        else if(m*m != n) return false;
-        return is2Power(n, m-1);
-    }
-
-    public static boolean isSortedDigits(int n){
-        if(n<100) return (n/10 < n%10);
-        return (isSortedDigits(n/10) && n/10%10 < n%10);
-    }
-
-        // The answers we did in class:
+    // The answers we did in class:
     /*
 
 
@@ -408,6 +226,8 @@ public class Program {
      */
 
 
+
+
     public static String printNode(IntNode chain){
         IntNode pos = chain;
         String str = "";
@@ -439,32 +259,6 @@ public class Program {
         return ((double)avarage/i);
 
     }
-
-    public static void recTests(){
-        N(sum1ToN(5), 15, "sum1ToN");
-        N(factorial(6), 720, "factorial");
-        N(mulOdd(5), 15, "mulOdd");
-        N(sumDigits(1234), 10, "sumDigits");
-        N(mod(5, 4), 1, "mod");
-        N(mul(4, 5), 20, "mul");
-        N(reverseNum(1234), 4321, "reverseNum");
-        int[] a = {-5, -5};
-        N(diff(12, 3), 9, "diff");
-        N(countOddDigits(1742), 2, "countOddDigits");
-        N(isDividable(10, 5), true, "isDividable");
-        N(reverseNum(1234), 4321, "reverseNum");
-        N(auditDigit(869419), 1, "auditDigit");
-        N(isInNum(80,7), false, "isInNum");
-        N(isPrime(21), false, "isPrime");
-        N(sameDuality(35917), true, "sameDuality");
-        N(totalEars(2), 5, "totalEars");
-        N(numOfBlocks(6), 21, "numOfBlocks");
-        N(seriesSumSqrt(2), -0.7320508075688772, "seriesSumSqrt");
-        N(seriesSumPow(3), 12, "seriesSumPow");
-        N(minDigit(546173), 1, "minDigit");
-
-    }
-
     public static void intNodeTests(){
         IntNode IN1 = new IntNode(3);
         IntNode IN2 = new IntNode(1, IN1);

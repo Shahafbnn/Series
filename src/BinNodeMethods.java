@@ -22,7 +22,7 @@ public class BinNodeMethods {
         return countRightNodes(t.getRight()) + countRightNodes(t.getLeft());
     }
 
-    public static<T> int countChildrenEqual(BinNode<T> t){
+    public static<T> int countChildrenEqual(BinNode<T> t){ // failed
         if(t==null) return 0;
         if(t.getLeft() == null && t.getRight() == null) return 0;
         if(t.getLeft() == null) return countChildrenEqual(t.getRight());
@@ -51,7 +51,7 @@ public class BinNodeMethods {
         return countNodesEqualToNum(t.getLeft(), num) + countNodesEqualToNum(t.getRight(), num);
     }
 
-    public static<T> int sumGrandparents(BinNode<Integer> t){
+    public static<T> int sumGrandparents(BinNode<Integer> t){ //failed
         if(t.getLeft() == null && t.getRight() == null) return 0;
         if(t.getLeft() == null) return sumGrandparents(t.getRight()) + t.getValue() * (t.getRight().getLeft() != null ? 1 : 0) + t.getValue() * (t.getRight().getRight() != null ? 1 : 0);
         if(t.getRight() == null) return sumGrandparents(t.getLeft()) + t.getValue() * (t.getLeft().getRight() != null ? 1 : 0) + t.getValue() * (t.getLeft().getLeft() != null ? 1 : 0);

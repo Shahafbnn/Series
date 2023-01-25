@@ -10,6 +10,7 @@ public class BinNodeMain {
     public static void main(String[] args) {
         BinNodeMethods bnm = new BinNodeMethods();
         BinNode<Integer> b1 = new BinNode<Integer>(new BinNode<Integer>(new BinNode<Integer>(null, 4, null), 2, null), 1 ,new BinNode<Integer>(new BinNode<Integer>(null, 5, null), 3,new BinNode<Integer>(null, 6, null)));
+
         System.out.println(b1);
 
         BinNode<Integer> t = BinTreeUtils.buildRandomTree(20, 1, 3);
