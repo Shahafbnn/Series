@@ -305,15 +305,60 @@ public class BinTreeMethods {
 צומת שערכו x , אחרת — הפעולה תחזיר false . אם העץ ריק — הפעולה תחזיר false.*/
     public static Node<Integer> check(BinNode<Integer> t1, BinNode<Integer> t2){
         Node<Integer> first = new Node<Integer>(-1);
-        first = check(t1, t2, first);
+        //first = check(t1, t2, first);
         return first.getNext();
     }
 
-    public static Node<Integer> check(BinNode<Integer> t1, BinNode<Integer> t2, BinNode<Integer> list){
+    //public static Node<Integer> check(BinNode<Integer> t1, BinNode<Integer> t2, BinNode<Integer> list){}
 
+
+    //https://meyda.education.gov.il/sheeloney_bagrut/2022/6/HEB/899381.pdf question 7
+    public static boolean wordFromRoot(BinNode<Character> tree, String str){
+        int length = str.length();
+        if(str.isEmpty() && tree==null) return true;
+        if(str.isEmpty() || tree==null) return false;
+        if(!tree.hasLeft() && !tree.hasRight() && ("" + tree.getValue()).equals(str)) return true;
+        return str.substring(0,1).equals("" + tree.getValue()) && (wordFromRoot(tree.getLeft(), str.substring(1, length)) || wordFromRoot(tree.getRight(), str.substring(1, length)));
     }
 
+    public static void printAll1(BinNode<Integer> tree){
+        if(tree==null){
+            return;
+        }
+        if(tree.hasLeft()){
+            System.out.print(tree.getValue());
+            printAll1(tree.getLeft());
+        }
+        if(tree.hasRight()){
+            System.out.print(tree.getValue());
+            printAll1(tree.getRight());
+        }
+        if(!tree.hasLeft() && !tree.hasRight()) System.out.println(tree.getValue());
+    }
 
+    public static void printAll(BinNode<Integer> countTree) {
+        printAll(countTree, 0);
+    }
+
+    private static void printAll(BinNode<Integer> countTree, int num) {
+        if (countTree != null){
+            num = 10 * num + countTree.getValue();
+            if (!countTree.hasRight() && !countTree.hasLeft())
+                System.out.println(num);
+            printAll(countTree.getLeft(), num);
+            printAll(countTree.getRight(), num);
+        }
+    }
+
+    /*https://meyda.education.gov.il/sheeloney_bagrut/2009/6/HEB/899205.pdf - שאלה 2*/
+    public static boolean isRightLeft2(BinNode<Integer> tree){
+        if(tree==null) return true;
+        if(tree.hasRight()){
+            if(tree.hasLeft()) return isRightLeft(tree.getLeft()) && isRightLeft(tree.getRight());
+            return false;
+        }
+        return isRightLeft(tree.getLeft());
+    }
 
 
 
