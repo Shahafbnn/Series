@@ -354,10 +354,10 @@ public class BinTreeMethods {
     public static boolean isRightLeft2(BinNode<Integer> tree){
         if(tree==null) return true;
         if(tree.hasRight()){
-            if(tree.hasLeft()) return isRightLeft(tree.getLeft()) && isRightLeft(tree.getRight());
+            if(tree.hasLeft()) return isRightLeft2(tree.getLeft()) && isRightLeft2(tree.getRight());
             return false;
         }
-        return isRightLeft(tree.getLeft());
+        return isRightLeft2(tree.getLeft());
     }
 
 

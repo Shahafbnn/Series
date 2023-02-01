@@ -8,9 +8,12 @@ public class LinkedListMethods {
         p.setNext(tail);
         tail.setPrev(p);
         System.out.println(head);
-        System.out.println(buildNumber(head));
-        System.out.println(buildReverseNumber(head));
-        System.out.println(buildDecimalNumber(head));
+        System.out.println("buildNumber(head) = " + buildNumber(head));
+        System.out.println("getNextest(head).getValue() = " + getNextest(head).getValue());
+        System.out.println("getPrevest(tail).getValue() = " + getPrevest(tail).getValue());
+        System.out.println("buildReverseNumber2(head) = " + buildReverseNumber2(head));
+        System.out.println("buildReverseNumber(head) = " + buildReverseNumber(head));
+        System.out.println("buildDecimalNumber(head) = " + buildDecimalNumber(head));
     }
 
     public static int buildNumber(LinkedList<Integer> list) {
@@ -25,6 +28,24 @@ public class LinkedListMethods {
             ptr = ptr.getNext();
         }
         return num;
+    }
+
+    public static <T> LinkedList<T> getNextest(LinkedList<T> list){
+        if(!list.hasNext()) return list;
+        return getNextest(list.getNext());
+    }
+    public static <T> LinkedList<T> getPrevest(LinkedList<T> list){
+        if(!list.hasPrev()) return list;
+        return getPrevest(list.getPrev());
+    }
+
+    public static int buildReverseNumber2(LinkedList<Integer> list) {
+        // @param a two directional int list. assumption: all values represent a digit
+        // @return an int number based on the list list
+        // null<-1-><-2-><-3->null -> 123
+        // n = the length of list, O(n) because we go over list once here.
+        if(list==null) return 0;
+        return buildReverseNumber2(list.getNext())*10 + list.getValue();
     }
     public static int buildReverseNumber(LinkedList<Integer> list){
         // @param a two directional int list. assumption: all values represent a digit
@@ -62,6 +83,8 @@ public class LinkedListMethods {
         binNum.setPrev(null);
         return ptr;
     }
+
+    
 
 }
 
