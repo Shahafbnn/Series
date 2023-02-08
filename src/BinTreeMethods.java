@@ -1,3 +1,4 @@
+import com.sun.source.tree.BinaryTree;
 import unit4.collectionsLib.BinNode;
 
 public class BinTreeMethods {
@@ -359,7 +360,34 @@ public class BinTreeMethods {
         }
         return isRightLeft2(tree.getLeft());
     }
+    
 
+    /*https://meyda.education.gov.il/sheeloney_bagrut/2013/6/HEB/899205.pdf - שאלה 4*/ // SKIPPED
+
+    //https://meyda.education.gov.il/sheeloney_bagrut/2011/6/HEB/899205.pdf - שאלה 4 (להחליף את הדרישה למחסנית עם תור)
+    public static void leaves(BinNode<Integer> t, Queue<Integer> s){
+        if(t==null) return;
+        if(!t.hasLeft() && !t.hasRight()) s.insert(t.getValue());
+        leaves(t.getRight(), s);
+        leaves(t.getLeft(), s);
+    }
+
+    public static boolean equalLeaves(BinNode<Integer> t1, BinNode<Integer> t2){
+        Queue<Integer> s1 = new Queue<Integer>();
+        leaves(t1, s1);
+        Queue<Integer> s2 = new Queue<Integer>();
+        leaves(t2, s2);
+        boolean isEquals = true;
+        while(!s1.isEmpty() || !s2.isEmpty()) {
+            isEquals = s1.remove().equals(s2.remove());
+        }
+        if((s1.isEmpty() && !s2.isEmpty()) || (!s1.isEmpty() && s2.isEmpty())) return false;
+        if(s1.isEmpty() && s2.isEmpty()) return isEquals;
+        return false;
+
+    }
+
+    //https://meyda.education.gov.il/sheeloney_bagrut/2012/6/HEB/899205.pdf - שאלה 2 (להחליף את הדרישה למחסנית עם תור)
 
 
 

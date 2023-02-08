@@ -24,11 +24,21 @@ public class BinNodeMethods {
 
     public static<T> int countChildrenEqual(BinNode<T> t){ // failed
         if(t==null) return 0;
-        if(t.getLeft() == null && t.getRight() == null) return 0;
+        if(!t.hasLeft() && !t.hasRight()) return 0;
         if(t.getLeft() == null) return countChildrenEqual(t.getRight());
         if(t.getRight() == null) return countChildrenEqual(t.getLeft());
-        return (t.getLeft().equals(t.getRight()) ? 1 : 0) + countChildrenEqual(t.getLeft()) + countChildrenEqual(t.getRight());
-
+        return (t.getLeft().getValue().equals(t.getRight().getValue()) ? 1 : 0) + countChildrenEqual(t.getLeft()) + countChildrenEqual(t.getRight());
+    }
+    public static <T> int countEqualChildren(BinNode<T> t) {
+        if (t == null) return 0;
+        if (t.hasRight() && t.hasLeft())
+        {
+            if (t.getRight().getValue().equals(t.getLeft().getValue()))
+            {
+                return 1 + countEqualChildren(t.getLeft()) + countEqualChildren(t.getRight());
+            }
+        }
+        return countEqualChildren(t.getLeft()) + countEqualChildren(t.getRight());
     }
 
     public static int countNodesBiggerThanParent(BinNode<Integer> t){

@@ -34,12 +34,12 @@ public class BinNodeMain {
         System.out.println("BinTreeMethods.printAll(b1): ");
         BinTreeMethods.printAll(b1);
 
-//        try {
-//            TimeUnit.MINUTES.sleep(2);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//        exit(1);
+        try {
+            TimeUnit.MINUTES.sleep(2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        exit(1);
 
     }
 }
