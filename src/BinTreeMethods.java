@@ -389,6 +389,8 @@ public class BinTreeMethods {
 
     //https://meyda.education.gov.il/sheeloney_bagrut/2012/6/HEB/899205.pdf - שאלה 2 (להחליף את הדרישה למחסנית עם תור)
 
+    /* https://meyda.education.gov.il/sheeloney_bagrut/2013/6/HEB/899205.pdf - שאלה 4 */
+
 
 
 
