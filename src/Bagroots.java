@@ -60,9 +60,9 @@ public class Bagroots {
         RealSet negs = new RealSet();
         double biggest;
         while(temp.size() > 0){
-            biggest
-            if()
+            biggest = temp.findBiggest();
         }
+        return rs; // FOR NOW SO I WONT SEE ERRORS
     }
 
 
