@@ -8,7 +8,7 @@ class Product{
     }
 
     public double getDiscountPrice(){
-        return price * 0.9;
+        return price * 0.9; // given the price will be positive.
     }
 }
 
@@ -24,7 +24,7 @@ class Clothing extends Product{
 
     @Override
     public double getDiscountPrice(){
-        return super.getDiscountPrice() - 10;
+        return super.getDiscountPrice() - 10; // given the price will be positive.
     }
 }
 
