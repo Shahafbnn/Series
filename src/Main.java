@@ -19,6 +19,13 @@ public class Main {
                 System.out.printf("Post-remove: %s %n", q);
             }
 
+
+            Queue<int[]> arrq = new Queue<int[]>();
+            arrq.insert(new int[]{-7, 4});
+            arrq.insert(new int[]{-1,2,6,7});
+            arrq.insert(new int[]{-2,-3,12,7});
+            System.out.println(task(arrq));
+
         }
 
         QueueMethods.BusRoute br = new QueueMethods.BusRoute(new QueueMethods.Station(0,2), new QueueMethods.Station(1,4));
@@ -30,6 +37,20 @@ public class Main {
         System.out.println(makeQueue(1234));
 
     }
+    public static boolean isBal(int[]arr){//NEED TO MAKE THIS RECURSIVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        int i = 0;
+        for(;i<arr.length/2; i++){if(arr[i] >= 0)return false;}
+        for(i++ ; i<arr.length; i++){if(arr[i] < 0) return false;}
+        return true;
+    }
+    public static int task (Queue<int[]> q)
+    {
+        if(q.isEmpty())
+            return 0;
+        if(isBal(q.remove())) return q.head()[0]+task(q);
+        else return task(q);
+    }
+
 
 
     public static Queue<Integer> makeQueue(int n){
