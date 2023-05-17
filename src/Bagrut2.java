@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class Bagrut2 {
-    public class Queue<T> {
+    public static class Queue<T> {
         private Node<T> head; //queue head
         private Node<T> tail; //queue tail
         public Queue(){
@@ -149,7 +149,7 @@ public class Bagrut2 {
     //סטודנטים הממתינים לקבלת מלגה מאוחסנים בתור, הכולל את המידע הבא: מספר סטודנט, תואר (BA או MA), ממוצע ציונים והאם אזרח?
     //זכאים למלגה אוטומטית הם אזרחי המדינה שממוצע ציונם מעל 90 ב – BA או מעל 85 ב – MA
     //א.  הגדירו מחלקה מתאימה . אין צורך לממש פעולות set , get .
-    public class Student{
+    public static class Student{
         private int studentNum;
         private enum Degree{
             MA,BA
@@ -157,12 +157,22 @@ public class Bagrut2 {
         private Degree degree;
         private int avgGrades;
         private boolean isCitizen;
+        private int money;
 
-        public Student(int studentNum, Degree degree, int avgGrades, boolean isCitizen) {
+        public int getMoney() {
+            return money;
+        }
+
+        public void setMoney(int money) {
+            this.money = money;
+        }
+
+        public Student(int studentNum, Degree degree, int avgGrades, boolean isCitizen, int money) {
             this.studentNum = studentNum;
             this.degree = degree;
             this.avgGrades = avgGrades;
             this.isCitizen = isCitizen;
+            this.money = money;
         }
 
         public int getStudentNum() {
@@ -196,10 +206,21 @@ public class Bagrut2 {
         public void setCitizen(boolean citizen) {
             isCitizen = citizen;
         }
+
+        @Override
+        public String toString() {
+            return "Student{" +
+                    "studentNum=" + studentNum +
+                    ", degree=" + degree +
+                    ", avgGrades=" + avgGrades +
+                    ", isCitizen=" + isCitizen +
+                    ", money=" + money +
+                    '}';
+        }
     }
 
     //זכאים למלגה אוטומטית הם אזרחי המדינה שממוצע ציונם מעל 90 ב – BA או מעל 85 ב – MA
-    public class WaitingForScholarship{
+    public static class WaitingForScholarship{
         private Queue<Student> waitingStudents;
 
 
@@ -215,39 +236,128 @@ public class Bagrut2 {
             return waitingStudents;
         }
 
-
-
-
-
-
-
-
-    }
-    //שאלה 5:
-    //סטודנטים הממתינים לקבלת מלגה מאוחסנים בתור, הכולל את המידע הבא: מספר סטודנט, תואר (BA או MA), ממוצע ציונים והאם אזרח?
-    //זכאים למלגה אוטומטית הם אזרחי המדינה שממוצע ציונם מעל 90 ב – BA או מעל 85 ב – MA
-    //א.  הגדירו מחלקה מתאימה . אין צורך לממש פעולות set , get .
-    //ב.  כתבו פעולה המקבלת תור לא ריק של ממתינים למלגה  ומחזירה כמה זכאים אוטומטית למלגה. (אין לפגוע בתור המקורי)
-    //ג.  כתבו  פעולה המקבלת סכום מלגה שאותו ניתן לחלק לסטודנטים באופן הבא:
-    //- אם נמצאו 5 זכאים או יותר אוטומטית הסכום יחולק שווה בשווה ביניהם.
-    //- אם נמצאו פחות, יחולק הסכום באופן הבא: 50% יחולק בין הזכאים אוטומטית ו 50% נוספים בין כל  אלה שאינם אזרחים. (הנח שיש לפחות אחד כזה בתור)
-    //עבור כל אלה שיקבלו מלגה תודפס הודעה עם מס. הסטודנט והסכום שקיבל והוא ייצא מהתור.
-    public boolean isStudentScholarable(Student student){
-        return (student.isCitizen && ((student.getDegree().equals(Student.Degree.BA)&& student.getAvgGrades() > 90)||(student.getDegree().equals(Student.Degree.MA)&& student.getAvgGrades() > 85)));
-    }
-
-    public int countEligibles(Queue<Student> s){
-        int eligibles = 0;
-        Queue<Student> temp = new Queue<Student>();
-        Student removed = null;
-        while(!s.isEmpty()){
-            removed = s.remove();
-            eligibles = eligibles + (isStudentScholarable(removed)?1:0); // ah I just love trinity operator (:
-            temp.insert(removed);
+        //שאלה 5:
+        //סטודנטים הממתינים לקבלת מלגה מאוחסנים בתור, הכולל את המידע הבא: מספר סטודנט, תואר (BA או MA), ממוצע ציונים והאם אזרח?
+        //זכאים למלגה אוטומטית הם אזרחי המדינה שממוצע ציונם מעל 90 ב – BA או מעל 85 ב – MA
+        //א.  הגדירו מחלק``ה מתאימה . אין צורך לממש פעולות set , get .
+        //ב.  כתבו פעולה המקבלת תור לא ריק של ממתינים למלגה  ומחזירה כמה זכאים אוטומטית למלגה. (אין לפגוע בתור המקורי)
+        //ג.  כתבו  פעולה המקבלת סכום מלגה שאותו ניתן לחלק לסטודנטים באופן הבא:
+        //- אם נמצאו 5 זכאים או יותר אוטומטית הסכום יחולק שווה בשווה ביניהם.
+        //- אם נמצאו פחות, יחולק הסכום באופן הבא: 50% יחולק בין הזכאים אוטומטית ו 50% נוספים בין כל  אלה שאינם אזרחים. (הנח שיש לפחות אחד כזה בתור)
+        //עבור כל אלה שיקבלו מלגה תודפס הודעה עם מס. הסטודנט והסכום שקיבל והוא ייצא מהתור.
+        public boolean isStudentScholarable(Student student){
+            return (student.isCitizen && ((student.getDegree().equals(Student.Degree.BA)&& student.getAvgGrades() > 90)||(student.getDegree().equals(Student.Degree.MA)&& student.getAvgGrades() > 85)));
         }
-        while(!temp.isEmpty())s.insert(temp.remove());
 
-        return eligibles;
-    }
+        public int countEligibles(Queue<Student> s){
+            int eligibles = 0;
+            Queue<Student> temp = new Queue<Student>();
+            Student removed = null;
+            while(!s.isEmpty()){
+                removed = s.remove();
+                eligibles = eligibles + (isStudentScholarable(removed)?1:0); // ah, I just love trinity operator (:
+                temp.insert(removed);
+            }
+            while(!temp.isEmpty())s.insert(temp.remove());
 
-}
+            return eligibles;
+        }
+        public int countNonCitizens(Queue<Student> s){
+            int nons = 0;
+            Queue<Student> temp = new Queue<Student>();
+            Student removed = null;
+            while(!s.isEmpty()){
+                removed = s.remove();
+                nons = nons + ((removed.isCitizen())?1:0); // ah, I just love trinity operator (:
+                temp.insert(removed);
+            }
+            while(!temp.isEmpty())s.insert(temp.remove());
+
+            return nons;
+        }
+
+
+        public void giveMoney(int money){
+            int eligibles = this.countEligibles(this.waitingStudents);
+            Queue<Student> s = this.waitingStudents;
+            boolean isSmaller = eligibles < 5;
+            int devider = (isSmaller)?2:1;
+            if (eligibles >= 5){
+
+            }
+            int nons = 1;
+            if(isSmaller) {nons = countNonCitizens(this.waitingStudents);}
+
+            Queue<Student> temp = new Queue<Student>();
+            Student removed = null;
+            while(!s.isEmpty()){
+                removed = s.remove();
+                if (isStudentScholarable(removed)) {
+                    removed.setMoney(removed.getMoney() + money/devider/eligibles);
+                    System.out.printf("%d money given to student number %d", removed.getMoney(), removed.getStudentNum());
+                } else if ((isSmaller) && removed.isCitizen()) {
+                    removed.setMoney(removed.getMoney() + money/2/nons);
+                    System.out.printf("%d money given to student number %d", removed.getMoney(), removed.getStudentNum());
+
+                }
+                else temp.insert(removed);
+            }
+            while(!temp.isEmpty())s.insert(temp.remove());
+
+            }
+
+
+        }//WaitingForScholarship bracket
+
+
+    public static void main(String[] args) {
+        Student s0 = new Student(0, Student.Degree.MA, 86, false, 0); //not eligible
+        Student s1 = new Student(1, Student.Degree.BA, 50, true, 0); //not eligible
+        Student s2 = new Student(2, Student.Degree.BA, 50, true, 0); //not eligible
+        Student s3 = new Student(3, Student.Degree.BA, 50, false, 0); //not eligible
+        Student s4 = new Student(4, Student.Degree.BA, 91, false, 0); //not eligible
+
+        Student s5 = new Student(5, Student.Degree.BA, 91, true, 0); //all eligibles
+        Student s6 = new Student(6, Student.Degree.MA, 86, true, 0);
+        Student s7 = new Student(7, Student.Degree.BA, 91, true, 0);
+        Student s8 = new Student(8, Student.Degree.MA, 86, true, 0);
+        Student s9 = new Student(9, Student.Degree.BA, 91, true, 0);
+        Student s10 = new Student(10, Student.Degree.MA, 86, true, 0);
+
+        Queue<Student> allStudents6Eli = new Queue<Student>();
+        allStudents6Eli.insert(s0);
+        allStudents6Eli.insert(s1);
+        allStudents6Eli.insert(s2);
+        allStudents6Eli.insert(s3);
+        allStudents6Eli.insert(s4);
+        allStudents6Eli.insert(s5);
+        allStudents6Eli.insert(s6);
+        allStudents6Eli.insert(s7);
+        allStudents6Eli.insert(s8);
+        allStudents6Eli.insert(s9);
+        allStudents6Eli.insert(s10);
+
+        Queue<Student> students4NotEli = new Queue<Student>();
+        students4NotEli.insert(s0);
+        students4NotEli.insert(s1);
+        students4NotEli.insert(s2);
+        students4NotEli.insert(s3);
+        students4NotEli.insert(s4);
+        students4NotEli.insert(s7);
+        students4NotEli.insert(s8);
+        students4NotEli.insert(s9);
+        students4NotEli.insert(s10);
+
+        WaitingForScholarship waitingEli = new WaitingForScholarship(allStudents6Eli);
+
+        System.out.println("waitingEli.countEligibles(allStudents6Eli): " + waitingEli.countEligibles(allStudents6Eli));
+        System.out.println("allStudents6Eli" + allStudents6Eli);
+
+        WaitingForScholarship waitingNotEli = new WaitingForScholarship(students4NotEli);
+
+
+
+
+    }//main bracket
+}//Bagrut2 bracket
+
