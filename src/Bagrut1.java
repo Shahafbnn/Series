@@ -1,9 +1,8 @@
 import unit4.collectionsLib.BinNode;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
-public class Bagrut2 {
+public class Bagrut1 {
     public static class Queue<T> {
         private Node<T> head; //queue head
         private Node<T> tail; //queue tail
@@ -322,7 +321,7 @@ public class Bagrut2 {
 
     public static void main(String[] args) {
 
-        Queue<Student> allStudents6EliQueue = Bagrut2.ArrayToQueue(new Student[] {
+        Queue<Student> allStudents6EliQueue = Bagrut1.ArrayToQueue(new Student[] {
                 new Student(0, Student.Degree.MA, 86, false, 0), //not eligible
                 new Student(1, Student.Degree.BA, 50, true, 0), //not eligible
                 new Student(2, Student.Degree.BA, 50, true, 0), //not eligible
@@ -336,7 +335,7 @@ public class Bagrut2 {
                 new Student(10, Student.Degree.MA, 86, true, 0),
         });
 
-        Queue<Student> students4NotEliQueue = Bagrut2.ArrayToQueue(new Student[] {
+        Queue<Student> students4NotEliQueue = Bagrut1.ArrayToQueue(new Student[] {
                 new Student(0, Student.Degree.MA, 86, false, 0), //not eligible
                 new Student(1, Student.Degree.BA, 50, true, 0), //not eligible
                 new Student(2, Student.Degree.BA, 50, true, 0), //not eligible
@@ -362,5 +361,5 @@ public class Bagrut2 {
 
 
     }//main bracket
-}//Bagrut2 bracket
+}//Bagrut1 bracket
 
